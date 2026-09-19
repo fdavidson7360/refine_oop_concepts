@@ -29,3 +29,36 @@ int main()
 
     return 0;
 }
+
+// Next example of multiple threading
+// Allow two threads to run concurrently, each thread will print a message to the console.
+// Then the main thread will wait for both threads to finish before exiting.
+
+#include <iostream>
+#include <thread>
+#include <string>
+
+class HeroRunner {
+public:
+    HeroRunner(const std::string& heroName) : heroName(heroName) {}
+
+    void operator()() const {
+        std::this_thread::sleep_for(std::chrono::milliseconds(800));
+        std::cout << "Hero " << heroName << " activated" << std::endl;
+    }
+
+private:
+    std::string heroName;
+};
+
+int main() {
+    std::thread t1(HeroRunner("Hero-A"));
+    std::thread t2(HeroRunner("Hero-B"));
+
+    t1.join();
+    t2.join();
+
+    std::cout << "Operation Complete" << std::endl;
+
+    return 0;
+}
