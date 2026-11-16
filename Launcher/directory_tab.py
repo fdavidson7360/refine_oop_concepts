@@ -8,6 +8,7 @@ class DirectoryTab(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent, padding=20)
         self._build_ui()
+        # self.build_contents_frame()
 
     def _build_ui(self):
         ttk.Label(self, text="Current Working Directory:", font=("Helvetica", 11, "bold")).pack(anchor="w")
@@ -26,8 +27,27 @@ class DirectoryTab(ttk.Frame):
 
         ttk.Button(input_frame, text="Change Directory", command=self.change_directory).pack(side="right")
 
-        
+        # Add a secondary LabelFrame for displaying directory contents 
+        # TODO: This needs to be updated to show the contents of the new directory after a change.
+        self.contents_frame = ttk.Labelframe(self, text="Directory Contents", padding=10)
+        self.contents_frame.pack(fill="x", pady=(20, 0))
+        self.build_contents_frame()
 
+    def build_contents_frame(self):
+        # Clear previous contents
+        for widget in self.contents_frame.winfo_children():
+            widget.destroy()
+
+        try:
+            contents = os.listdir(os.getcwd())
+            if not contents:
+                ttk.Label(self.contents_frame, text="Directory is empty.", foreground="#555555").pack(anchor="w")
+            else:
+                for item in contents:
+                    ttk.Label(self.contents_frame, text=item, font=("Courier", 9)).pack(anchor="w")
+        except Exception as e:
+            ttk.Label(self.contents_frame, text=f"Error reading directory: {e}", foreground="red").pack(anchor="w") 
+            
     def change_directory(self):
         target_dir = os.path.expanduser(self.path_entry.get().strip())
         if not target_dir:
@@ -39,6 +59,7 @@ class DirectoryTab(ttk.Frame):
             successful_dir_label = ttk.Label(self, foreground="green", text="Directory changes applied successfully!")
             successful_dir_label.pack(anchor="w", pady=(20, 5))
 
-            successful_dir_label.after(1000, successful_dir_label.destroy)
+            successful_dir_label.after(1000, successful_dir_label.destroy) # Only show success message for 1 second
+            self.build_contents_frame()
         except Exception as e:
             messagebox.showerror("Directory Error", str(e))

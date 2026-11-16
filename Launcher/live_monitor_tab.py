@@ -19,7 +19,7 @@ class LiveMonitorTab(ttk.Frame):
         grid_frame.pack(fill="x")
 
         ttk.Label(grid_frame, text="Process Name", font=("Helvetica", 10, "bold"), width=24).grid(row=0, column=0, sticky="w", pady=5)
-        ttk.Label(grid_frame, text="Grep String", font=("Helvetica", 10, "bold"), width=22).grid(row=0, column=1, sticky="w", pady=5)
+        # ttk.Label(grid_frame, text="Grep String", font=("Helvetica", 10, "bold"), width=22).grid(row=0, column=1, sticky="w", pady=5)
         ttk.Label(grid_frame, text="State", font=("Helvetica", 10, "bold"), width=14).grid(row=0, column=2, sticky="w", pady=5)
         ttk.Label(grid_frame, text="PID", font=("Helvetica", 10, "bold"), width=10).grid(row=0, column=3, sticky="w", pady=5)
 
@@ -27,7 +27,7 @@ class LiveMonitorTab(ttk.Frame):
 
         for idx, (name, cfg) in enumerate(self.pm.processes.items(), start=2):
             ttk.Label(grid_frame, text=name).grid(row=idx, column=0, sticky="w", pady=6)
-            ttk.Label(grid_frame, text=cfg["grep_str"], font=("Courier", 9), foreground="#555555").grid(row=idx, column=1, sticky="w", pady=6)
+            # ttk.Label(grid_frame, text=cfg["grep_str"], font=("Courier", 9), foreground="#555555").grid(row=idx, column=1, sticky="w", pady=6)
 
             status_lbl = ttk.Label(grid_frame, text="Checking...", font=("Helvetica", 10, "bold"))
             status_lbl.grid(row=idx, column=2, sticky="w", pady=6)
